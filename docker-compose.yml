@@ -1,0 +1,63 @@
+version: "2"
+services:
+  osticket_mysql:
+    image: mysql
+    container_name: osticket_mysql
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      # Note: the config only seems to be updated when the container is initially created
+      MYSQL_PORT:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+    networks:
+      - makerticket
+
+  osticket:
+    image: makerticket/osticket:1.0
+    container_name: makerticket-osticket
+    build: ./osticket-docker
+    environment:
+      VIRTUAL_HOST:
+      LETSENCRYPT_HOST:
+      LETSENCRYPT_EMAIL:
+      INSTALL_NAME:
+      INSTALL_EMAIL:
+      INSTALL_SECRET:
+      INSTALL_CONFIG:
+      ADMIN_FIRSTNAME:
+      ADMIN_LASTNAME:
+      ADMIN_EMAIL:
+      ADMIN_USERNAME:
+      ADMIN_PASSWORD:
+      ADMIN_PASSWORD:
+      MYSQL_PREFIX:
+      MYSQL_HOST:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD: 
+      SMTP_HOST:
+      SMTP_PORT:
+      SMTP_FROM:
+      SMTP_TLS:
+      SMTP_TLS_CERTS:
+      SMTP_USER:
+      SMTP_PASSWORD:
+      CRON_INTERVAL:
+    links:
+      - osticket_mysql:mysql
+    ports:
+      - "80:80"
+    depends_on:
+      - osticket_mysql
+    networks:
+      - makerticket
+
+volumes:
+  dbdata:
+networks:
+  makerticket:
+

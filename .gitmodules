@@ -1,0 +1,3 @@
+[submodule "docker-osticket"]
+	path = osticket-docker
+	url = https://github.com/DevJohan/docker-osticket.git
